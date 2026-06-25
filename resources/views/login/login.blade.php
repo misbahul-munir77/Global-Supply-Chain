@@ -9,6 +9,9 @@
     <h2>Login</h2>
     <form action="/masuk" method="post">
         @csrf
+        @error('login')
+            {{ $message }}
+        @enderror
         <label for="">Email</label>
         <input type="email" name="email" value="{{old('email')}}" placeholder="Masukkan email">
         @error('email')
