@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',   // Field role: 'admin' atau 'user' (dari tabel users)
     ];
 
     /**

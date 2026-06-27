@@ -1,0 +1,1122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* --- 2. CSS Variables (Palet Warna & Ukuran) --- */
+/* Variabel memudahkan kita mengubah warna/ukuran cukup di satu tempat */
+:root {
+    --bg-dark: #03142c;
+    /* Warna sidebar & navbar utama (navy sangat gelap) */
+    --bg-dark-2: #041e3f;
+    /* Warna card dalam sidebar */
+    --bg-dark-3: #062654;
+    /* Hover sidebar */
+    --accent-blue: #1a73e8;
+    /* Warna aksen tombol / highlight */
+    --accent-cyan: #00c6ff;
+    /* Warna aksen sekunder (gradient) */
+    --accent-green: #00c853;
+    /* Indikator status NORMAL */
+    --accent-orange: #ff9100;
+    /* Indikator status WASPADA */
+    --accent-red: #f44336;
+    /* Indikator status GANGGUAN */
+    --text-primary: #ffffff;
+    /* Teks utama (sidebar) */
+    --text-muted: #8eaac8;
+    /* Teks sekunder / deskripsi */
+    --border-color: rgba(255, 255, 255, 0.08);
+    /* Garis pembatas halus */
+    --card-bg: #ffffff;
+    /* Background card konten */
+    --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+    /* Border radius standar card */
+    --sidebar-w: 240px;
+    /* Lebar sidebar */
+}
+
+/* --- 3. Reset & Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8;
+    color: #1a2332;
+    font-size: 14px;
+    line-height: 1.6;
+    padding-top: 56px;
+    /* Ruang untuk navbar fixed */
+}
+
+/* --- 4. Scrollbar Custom (agar lebih elegan) --- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1d0e0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0b4c8;
+}
+
+
+/* NAVBAR (Bar atas) */
+.navbar-supply {
+    background-color: var(--bg-dark);
+    height: 56px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Tombol buka/tutup sidebar di navbar */
+.sidebar-toggle-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.navbar-brand-supply {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.navbar-brand-supply .brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Badge kurs mata uang di navbar */
+.exchange-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 4px 14px;
+    color: var(--text-muted);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.exchange-badge .rate-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+.exchange-badge .rate-up {
+    color: var(--accent-green);
+}
+
+.exchange-badge .rate-down {
+    color: var(--accent-red);
+}
+
+.btn-logout {
+    background: var(--accent-blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background: #155db2;
+    color: #fff;
+}
+
+
+/* ============================================================
+   LAYOUT UTAMA
+   ============================================================ */
+
+
+
+.wrapper-main {
+    display: flex;
+    min-height: calc(100vh - 56px);
+}
+
+/* ============================================================
+   SIDEBAR (Panel kiri — fixed position)
+   ============================================================ */
+.sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background-color: var(--bg-dark);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* Fixed: sidebar tidak kemana-mana saat scroll */
+    position: fixed;
+    left: 0;
+    top: 56px;
+    bottom: 0;
+    z-index: 500;
+    transition: transform 0.28s ease;
+}
+
+/* Saat sidebar ditutup, geser ke kiri (hilang dari layar) */
+.sidebar.collapsed {
+    transform: translateX(calc(-1 * var(--sidebar-w)));
+}
+
+.sidebar-brand-box {
+    background: var(--bg-dark-2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.sidebar-brand-box h6 {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.sidebar-brand-box small {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+/* Menu navigasi sidebar */
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+.sidebar-nav li+li {
+    margin-top: 4px;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.sidebar-nav a:hover {
+    background: var(--bg-dark-3);
+    color: #fff;
+}
+
+.sidebar-nav a.active {
+    background: var(--accent-blue);
+    color: #fff;
+}
+
+.sidebar-nav a i {
+    font-size: 16px;
+    width: 18px;
+    text-align: center;
+}
+
+/* Section judul dalam sidebar */
+.sidebar-section-title {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 12px;
+    margin-bottom: 10px;
+}
+
+/* Card berita di sidebar */
+.news-card {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--bg-dark-2);
+    margin-bottom: 8px;
+    border-left: 3px solid var(--accent-blue);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.news-card:hover {
+    background: var(--bg-dark-3);
+}
+
+.news-card p {
+    color: #d0dff0;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.news-card small {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+/* Profil user di bagian bawah sidebar */
+.sidebar-user {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 4px;
+}
+
+.sidebar-user .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.sidebar-user .user-info p {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+.sidebar-user .user-info small {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   KONTEN UTAMA (Area tengah)
+   ============================================================ */
+.main-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    min-width: 0;
+    /* Fix flexbox overflow */
+}
+
+.page-header {
+    margin-bottom: 20px;
+}
+
+.page-header h4 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2332;
+    margin-bottom: 2px;
+}
+
+.page-header small {
+    color: #6b7c93;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   PANEL KANAN (Country Profile, Economic Data)
+   ============================================================ */
+.right-panel {
+    width: 300px;
+    min-width: 300px;
+    background: #f0f4f8;
+    padding: 24px 16px;
+    overflow-y: auto;
+    border-left: 1px solid #dde4ed;
+}
+
+
+/* ============================================================
+   CARD (Komponen card konten)
+   ============================================================ */
+.supply-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid #e8edf4;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.supply-card .card-head {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f0f4f8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.supply-card .card-head h6 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2332;
+    margin: 0;
+}
+
+.supply-card .card-body-supply {
+    padding: 18px;
+}
+
+
+/* ============================================================
+   PETA LEAFLET
+   ============================================================ */
+/* Container peta harus punya tinggi eksplisit agar Leaflet muncul */
+#map {
+    height: 420px;
+    width: 100%;
+    border-radius: 0 0 var(--radius) var(--radius);
+    z-index: 1;
+}
+
+
+/* ============================================================
+   BADGE STATUS (Normal / Waspada / Gangguan)
+   ============================================================ */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-dot.normal {
+    background: var(--accent-green);
+    box-shadow: 0 0 6px var(--accent-green);
+}
+
+.status-dot.waspada {
+    background: var(--accent-orange);
+    box-shadow: 0 0 6px var(--accent-orange);
+}
+
+.status-dot.gangguan {
+    background: var(--accent-red);
+    box-shadow: 0 0 6px var(--accent-red);
+}
+
+.badge-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.badge-status.normal {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-status.waspada {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.badge-status.gangguan {
+    background: #ffebee;
+    color: #c62828;
+}
+
+
+/* ============================================================
+   PORT CARD (Data Pelabuhan)
+   ============================================================ */
+.port-card {
+    background: #f7faff;
+    border: 1px solid #e0eaf6;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.port-card:hover {
+    box-shadow: 0 4px 16px rgba(26, 115, 232, 0.12);
+}
+
+.port-card .port-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a2332;
+}
+
+.port-card .port-coord {
+    font-size: 11px;
+    color: #6b7c93;
+}
+
+.port-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #e3f0ff, #c8dfff);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-blue);
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+
+/* ============================================================
+   STAT CARD (GDP, Inflasi, dll)
+   ============================================================ */
+.stat-card {
+    background: #f7faff;
+    border: 1px solid #e0eaf6;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+}
+
+.stat-card .stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #6b7c93;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.stat-card .stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.stat-card .stat-value.green {
+    color: #2e7d32;
+}
+
+.stat-card .stat-value.red {
+    color: #c62828;
+}
+
+.stat-card .stat-value.blue {
+    color: var(--accent-blue);
+}
+
+.stat-card .stat-sub {
+    font-size: 10px;
+    color: #6b7c93;
+    margin-top: 4px;
+}
+
+
+/* ============================================================
+   COUNTRY PROFILE CARD
+   ============================================================ */
+.country-profile {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid #e8edf4;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.country-profile .flag-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.country-profile .flag-img {
+    width: 48px;
+    height: 36px;
+    border-radius: 6px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.country-profile .country-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a2332;
+    margin-bottom: 2px;
+}
+
+.country-profile .country-region {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f7fa;
+    font-size: 12px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row .label {
+    color: #6b7c93;
+    font-weight: 500;
+}
+
+.info-row .value {
+    color: #1a2332;
+    font-weight: 600;
+    text-align: right;
+}
+
+
+/* ============================================================
+   CHART CONTAINER
+   ============================================================ */
+.chart-wrapper {
+    position: relative;
+    height: 160px;
+    /* Tinggi chart — bisa disesuaikan */
+    width: 100%;
+}
+
+.chart-wrapper-sm {
+    position: relative;
+    height: 110px;
+    width: 100%;
+}
+
+
+/* ============================================================
+   RISK INDICATOR (Skor Risiko)
+   ============================================================ */
+.risk-bar-outer {
+    background: #e8edf4;
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.risk-bar-inner {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.8s ease;
+}
+
+.risk-bar-inner.low {
+    background: var(--accent-green);
+}
+
+.risk-bar-inner.medium {
+    background: var(--accent-orange);
+}
+
+.risk-bar-inner.high {
+    background: var(--accent-red);
+}
+
+.risk-score-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.risk-score-circle.low {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.risk-score-circle.medium {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.risk-score-circle.high {
+    background: #ffebee;
+    color: #c62828;
+}
+
+
+/* ============================================================
+   WEATHER CARD
+   ============================================================ */
+.weather-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.weather-temp {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a2332;
+}
+
+.weather-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.weather-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #6b7c93;
+}
+
+.weather-meta-item i {
+    color: var(--accent-blue);
+}
+
+
+/* ============================================================
+   COUNTRY SELECT DROPDOWN
+   ============================================================ */
+.country-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #dde4ed;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #1a2332;
+    background: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7c93' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.country-select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+
+/* ============================================================
+   EXCHANGE RATE TABLE
+   ============================================================ */
+.rate-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rate-table th {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6b7c93;
+    padding: 6px 8px;
+    border-bottom: 2px solid #f0f4f8;
+    letter-spacing: 0.5px;
+}
+
+.rate-table td {
+    font-size: 12px;
+    padding: 8px;
+    border-bottom: 1px solid #f5f7fa;
+    vertical-align: middle;
+}
+
+.rate-table .currency-code {
+    font-weight: 700;
+    color: #1a2332;
+}
+
+.rate-table .rate-num {
+    font-weight: 600;
+    color: #1a2332;
+    font-variant-numeric: tabular-nums;
+}
+
+.rate-change-up {
+    color: var(--accent-green);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.rate-change-down {
+    color: var(--accent-red);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   LOADING SKELETON (Animasi saat data sedang dimuat)
+   ============================================================ */
+/* Skeleton memberi tahu user bahwa konten sedang diload */
+.skeleton {
+    background: linear-gradient(90deg, #f0f4f8 25%, #e0e8f0 50%, #f0f4f8 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.4s infinite;
+    border-radius: 6px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.skeleton-text.w-75 {
+    width: 75%;
+}
+
+.skeleton-text.w-50 {
+    width: 50%;
+}
+
+/* Spinner loading kecil */
+.spinner-supply {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e0eaf6;
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   ANIMASI FADE IN (Halaman muncul dengan smooth)
+   ============================================================ */
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ============================================================
+   HALAMAN LOGIN & REGISTER
+   ============================================================ */
+.auth-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #03142c 0%, #041e3f 50%, #062654 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efek lingkaran dekoratif di background */
+.auth-page::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(26, 115, 232, 0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-page::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 198, 255, 0.1) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.05);
+    /* Glassmorphism effect */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeIn 0.6s ease forwards;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-logo .logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 24px rgba(26, 115, 232, 0.4);
+}
+
+.auth-logo h4 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.auth-logo p {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.auth-form-label {
+    color: #a8bfd4;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+.auth-form-control {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+}
+
+.auth-form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-form-control:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background: rgba(26, 115, 232, 0.1);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.auth-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-blue), #1557b0);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4);
+    letter-spacing: 0.3px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.5);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.auth-link a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Error alert di auth */
+.auth-alert {
+    background: rgba(244, 67, 54, 0.15);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ff8a80;
+    font-size: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* ============================================================
+   UTILITAS TAMBAHAN
+   ============================================================ */
+.text-muted-supply {
+    color: #6b7c93;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.fs-11 {
+    font-size: 11px;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-13 {
+    font-size: 13px;
+}
+
+.divider {
+    height: 1px;
+    background: #f0f4f8;
+    margin: 12px 0;
+}
+
+/* Region badge (misal: MALACCA STRAIT) */
+.region-badge {
+    background: #e3f0ff;
+    color: var(--accent-blue);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}

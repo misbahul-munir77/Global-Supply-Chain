@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
     public function index(){
-        if (Auth::user()->role == 'user') {
-            return view('user.dashboard');
-        }
-        else{
-            return back();
-        }
+        // Baik user biasa maupun admin dapat melihat halaman monitoring utama
+        return view('user.dashboard');
     }
 }
