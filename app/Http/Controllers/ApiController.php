@@ -7,17 +7,7 @@ use Illuminate\Support\Facades\Http;  // Laravel HTTP Client untuk memanggil API
 
 class ApiController extends Controller
 {
-    // ============================================================
-    // STEP 4A: DATA CUACA — OpenMeteo API
-    // ============================================================
-    // OpenMeteo adalah API cuaca GRATIS, tidak perlu API Key sama sekali.
-    // Kita kirim koordinat (latitude & longitude) → API mengembalikan data cuaca.
-    //
-    // Cara kerja:
-    // 1. Frontend (JavaScript) mengirim request AJAX ke /api/weather?lat=...&lng=...
-    // 2. Controller ini menerimanya, lalu memanggil OpenMeteo API
-    // 3. Data cuaca dikembalikan ke frontend dalam format JSON
-    // ============================================================
+//  DATA CUACA — OpenMeteo API
     public function getWeather(Request $request)
     {
         // Ambil koordinat yang dikirim frontend
@@ -72,10 +62,6 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * Data cuaca simulasi jika API gagal atau timeout
-     * Data dibuat berbeda berdasarkan koordinat agar realistis
-     */
     private function weatherFallback($lat, $lng)
     {
         // Tentukan suhu berdasarkan garis lintang (latitude)
@@ -120,20 +106,7 @@ class ApiController extends Controller
     }
 
 
-    // ============================================================
     // STEP 4B: DATA EKONOMI — World Bank API
-    // ============================================================
-    // World Bank menyediakan data ekonomi negara-negara di dunia, GRATIS tanpa API Key.
-    // Kode negara menggunakan format ISO 2-huruf: ID=Indonesia, SG=Singapura, dll.
-    //
-    // Endpoint: https://api.worldbank.org/v2/country/{kode}/indicator/{indikator}
-    // Indikator yang kita gunakan:
-    // - NY.GDP.MKTP.KD.ZG = Pertumbuhan GDP (%)
-    // - FP.CPI.TOTL.ZG    = Inflasi (%)
-    // - SP.POP.TOTL        = Populasi
-    // - NE.EXP.GNFS.ZS     = Ekspor (% dari GDP)
-    // - NE.IMP.GNFS.ZS     = Impor (% dari GDP)
-    // ============================================================
     public function getEconomy(Request $request, $countryCode)
     {
         // Konversi kode negara ke uppercase (misalnya 'id' → 'ID')
@@ -196,10 +169,7 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * Data ekonomi simulasi per negara
-     * Setiap negara punya angka yang berbeda dan realistis
-     */
+
     private function economyFallback($countryCode)
     {
         // Data simulasi berdasarkan profil ekonomi umum negara-negara
@@ -261,13 +231,7 @@ class ApiController extends Controller
     }
 
 
-    // ============================================================
-    // STEP 4C: DATA NEGARA — REST Countries API
-    // ============================================================
-    // Memberikan daftar semua negara dengan informasi: nama, bendera, ibu kota,
-    // mata uang, wilayah, bahasa, koordinat (untuk Leaflet), kode telepon, dll.
-    // Gratis, tanpa API key.
-    // ============================================================
+// DATA NEGARA — REST Countries API
     public function getCountries(Request $request)
     {
         try {
@@ -416,15 +380,7 @@ class ApiController extends Controller
     }
 
 
-    // ============================================================
     // STEP 4D: KURS MATA UANG — Simulasi Realistis
-    // ============================================================
-    // Karena belum ada API key ExchangeRate, kita gunakan data simulasi
-    // yang realistis dan dibuat "bergerak" sedikit setiap hari agar
-    // terlihat seperti data real-time.
-    //
-    // Data: kurs IDR (Rupiah Indonesia) terhadap mata uang utama dunia
-    // ============================================================
     public function getExchangeRate(Request $request)
     {
         $dayOfYear = (int)date('z');
@@ -560,11 +516,6 @@ class ApiController extends Controller
 
     // ============================================================
     // STEP 4E: DATA PELABUHAN — Data Statis (Bisa Ditambah API nanti)
-    // ============================================================
-    // Pelabuhan utama di jalur logistik Asia-Pasifik
-    // Setiap pelabuhan memiliki koordinat (lat/lng) untuk ditampilkan di peta Leaflet
-    // Status pelabuhan disimulasikan dengan variasi harian
-    // ============================================================
     public function getPorts(Request $request)
     {
         $apiKey = env('VESSEL_API_KEY');
@@ -855,11 +806,9 @@ class ApiController extends Controller
     }
 
 
-    // ============================================================
     // BERITA — NewsAPI (real) + fallback simulasi
     // API Key disimpan di .env: NEWS_API_KEY
     // Dokumentasi: https://newsapi.org/docs
-    // ============================================================
     public function getNews(Request $request)
     {
         $category = $request->get('category', 'all');
@@ -972,9 +921,7 @@ class ApiController extends Controller
     }
 
 
-    // ============================================================
-    // STEP 4G: SKOR RISIKO — Kalkulasi Agregat per Negara
-    // ============================================================
+    // SKOR RISIKO — Kalkulasi Agregat per Negara
     // Skor risiko dihitung dari kombinasi beberapa faktor:
     // 1. Risiko cuaca (dari OpenMeteo)
     // 2. Risiko ekonomi (inflasi tinggi = risiko tinggi)
@@ -982,7 +929,6 @@ class ApiController extends Controller
     // 4. Risiko logistik (kemacetan pelabuhan)
     //
     // Skor 0-100: 0=aman, 100=sangat berisiko
-    // ============================================================
     public function getRiskScore(Request $request, $countryCode)
     {
         $countryCode = strtoupper($countryCode);

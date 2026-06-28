@@ -831,9 +831,7 @@ body {
 }
 
 
-/* ============================================================
-   LOADING SKELETON (Animasi saat data sedang dimuat)
-   ============================================================ */
+/* LOADING SKELETON (Animasi saat data sedang dimuat)
 /* Skeleton memberi tahu user bahwa konten sedang diload */
 .skeleton {
     background: linear-gradient(90deg, #f0f4f8 25%, #e0e8f0 50%, #f0f4f8 75%);
@@ -903,9 +901,7 @@ body {
 }
 
 
-/* ============================================================
-   HALAMAN LOGIN & REGISTER
-   ============================================================ */
+/* HALAMAN LOGIN & REGISTER */
 .auth-page {
     min-height: 100vh;
     background: linear-gradient(135deg, #03142c 0%, #041e3f 50%, #062654 100%);
@@ -1076,9 +1072,7 @@ body {
 }
 
 
-/* ============================================================
-   UTILITAS TAMBAHAN
-   ============================================================ */
+   /* UTILITAS TAMBAHAN */
 .text-muted-supply {
     color: #6b7c93;
 }

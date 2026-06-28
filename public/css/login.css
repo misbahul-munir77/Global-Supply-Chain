@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* --- 2. CSS Variables (Palet Warna & Ukuran) --- */
+/* Variabel memudahkan kita mengubah warna/ukuran cukup di satu tempat */
+:root {
+    --bg-dark: #03142c;
+    /* Warna sidebar & navbar utama (navy sangat gelap) */
+    --bg-dark-2: #041e3f;
+    /* Warna card dalam sidebar */
+    --bg-dark-3: #062654;
+    /* Hover sidebar */
+    --accent-blue: #1a73e8;
+    /* Warna aksen tombol / highlight */
+    --accent-cyan: #00c6ff;
+    /* Warna aksen sekunder (gradient) */
+    --accent-green: #00c853;
+    /* Indikator status NORMAL */
+    --accent-orange: #ff9100;
+    /* Indikator status WASPADA */
+    --accent-red: #f44336;
+    /* Indikator status GANGGUAN */
+    --text-primary: #ffffff;
+    /* Teks utama (sidebar) */
+    --text-muted: #8eaac8;
+    /* Teks sekunder / deskripsi */
+    --border-color: rgba(255, 255, 255, 0.08);
+    /* Garis pembatas halus */
+    --card-bg: #ffffff;
+    /* Background card konten */
+    --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+    /* Border radius standar card */
+    --sidebar-w: 240px;
+    /* Lebar sidebar */
+}
+
+/* --- 3. Reset & Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8;
+    color: #1a2332;
+    font-size: 14px;
+    line-height: 1.6;
+    /* Ruang untuk navbar fixed */
+}
+
+/* --- 4. Scrollbar Custom (agar lebih elegan) --- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1d0e0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0b4c8;
+}
+
+/* HALAMAN LOGIN & REGISTER */
+.auth-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #03142c 0%, #041e3f 50%, #062654 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efek lingkaran dekoratif di background */
+.auth-page::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(26, 115, 232, 0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-page::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 198, 255, 0.1) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.05);
+    /* Glassmorphism effect */
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeIn 0.6s ease forwards;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-logo .logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 24px rgba(26, 115, 232, 0.4);
+}
+
+.auth-logo h4 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.auth-logo p {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.auth-form-label {
+    color: #a8bfd4;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+.auth-form-control {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+}
+
+.auth-form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-form-control:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    background: rgba(26, 115, 232, 0.1);
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.auth-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-blue), #1557b0);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4);
+    letter-spacing: 0.3px;
+}
+
+.auth-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.5);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.auth-link a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* Error alert di auth */
+.auth-alert {
+    background: rgba(244, 67, 54, 0.15);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ff8a80;
+    font-size: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+   /* UTILITAS TAMBAHAN */
+.text-muted-supply {
+    color: #6b7c93;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.fs-11 {
+    font-size: 11px;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-13 {
+    font-size: 13px;
+}
+
+.divider {
+    height: 1px;
+    background: #f0f4f8;
+    margin: 12px 0;
+}
+
+/* Region badge (misal: MALACCA STRAIT) */
+.region-badge {
+    background: #e3f0ff;
+    color: var(--accent-blue);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
